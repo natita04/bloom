@@ -83,14 +83,14 @@ const mockUserMilestones: UserMilestone[] = defaultMilestones
 export const useBloomStore = create<BloomState>()(
   persist(
     (set, get) => ({
-      user: mockUser,
-      isAuthenticated: true,
-      logs: mockLogs,
-      userMilestones: mockUserMilestones,
+      user: null,
+      isAuthenticated: false,
+      logs: [],
+      userMilestones: [],
       streak: {
-        currentStreak: 12,
-        longestStreak: 18,
-        lastLogDate: new Date().toISOString().split('T')[0],
+        currentStreak: 0,
+        longestStreak: 0,
+        lastLogDate: null,
       },
 
       setUser: (user) => set({ user, isAuthenticated: true }),
