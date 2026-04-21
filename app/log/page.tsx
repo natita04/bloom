@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
 import { getPregnancyWeek } from '@/lib/utils/pregnancy';
+import { upsertLog, upsertStreak } from '@/lib/db';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -56,7 +57,7 @@ export default function LogPage() {
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const log: DailyLog = {
       id: `log-${today}`,
       userId: user.id,
@@ -70,6 +71,8 @@ export default function LogPage() {
       pregnancyWeek: week,
     };
     addLog(log);
+    const newStreak = useBloomStore.getState().streak;
+    await Promise.all([upsertLog(log), upsertStreak(user.id, newStreak)]);
     setSubmitted(true);
     setTimeout(() => router.push('/dashboard'), 1200);
   };

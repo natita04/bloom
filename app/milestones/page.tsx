@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
+import { upsertMilestone } from '@/lib/db';
 import { getPregnancyWeek } from '@/lib/utils/pregnancy';
 import { defaultMilestones } from '@/lib/data/milestones';
 import { Card, CardContent } from '@/components/ui/card';
@@ -135,7 +136,11 @@ export default function MilestonesPage() {
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     <button
-                      onClick={() => toggleMilestone(milestone.id)}
+                      onClick={() => {
+                      const wasCompleted = isCompleted(milestone.id);
+                      toggleMilestone(milestone.id);
+                      upsertMilestone(user!.id, milestone.id, wasCompleted ? null : new Date().toISOString());
+                    }}
                       className="mt-0.5 shrink-0 transition-colors"
                       aria-label={done ? 'Mark incomplete' : 'Mark complete'}
                     >

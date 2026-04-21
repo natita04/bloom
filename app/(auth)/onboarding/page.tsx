@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { useBloomStore } from '@/lib/store';
+import { updateProfile } from '@/lib/db';
 import { cn } from '@/lib/utils';
 
 const steps = ['Due date', 'Pregnancy', 'Partner mode'];
@@ -22,7 +23,13 @@ export default function OnboardingPage() {
 
   const handleFinish = async () => {
     setLoading(true);
-    // TODO: Save to Supabase
+    if (user) {
+      await updateProfile(user.id, {
+        due_date: dueDate,
+        pregnancy_number: pregnancyNumber,
+        partner_mode: partnerMode,
+      });
+    }
     setUser({
       id: user?.id ?? 'new-user',
       email: user?.email ?? 'user@bloom.app',
