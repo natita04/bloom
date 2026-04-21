@@ -12,8 +12,9 @@ export default function ProfilePage() {
   const { user, streak, logs, logout } = useBloomStore();
   if (!user) return null;
 
-  const week = getPregnancyWeek(user.dueDate);
-  const daysLeft = getDaysUntilDue(user.dueDate);
+  const hasDueDate = !!user.dueDate;
+  const week = hasDueDate ? getPregnancyWeek(user.dueDate) : 0;
+  const daysLeft = hasDueDate ? getDaysUntilDue(user.dueDate) : 0;
 
   const handleExport = () => {
     const csv = [
@@ -65,15 +66,15 @@ export default function ProfilePage() {
           <CardContent className="pt-0 space-y-3">
             <div className="flex justify-between">
               <span className="text-zinc-400 text-sm">Current week</span>
-              <span className="text-white font-medium">Week {week}</span>
+              <span className="text-white font-medium">{hasDueDate ? `Week ${week}` : '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-zinc-400 text-sm">Due date</span>
-              <span className="text-white font-medium">{formatDueDate(user.dueDate)}</span>
+              <span className="text-white font-medium">{hasDueDate ? formatDueDate(user.dueDate) : '—'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-zinc-400 text-sm">Days remaining</span>
-              <span className="text-white font-medium">{daysLeft} days</span>
+              <span className="text-white font-medium">{hasDueDate ? `${daysLeft} days` : '—'}</span>
             </div>
           </CardContent>
         </Card>

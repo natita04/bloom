@@ -26,7 +26,7 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { user, streak } = useBloomStore();
-  const week = user ? getPregnancyWeek(user.dueDate) : 20;
+  const week = user?.dueDate ? getPregnancyWeek(user.dueDate) : 20;
   const trimester = getTrimester(week);
 
   return (

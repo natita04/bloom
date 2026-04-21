@@ -16,9 +16,9 @@ export default function DashboardPage() {
   const { user, streak, logs } = useBloomStore();
   if (!user) return null;
 
-  const week = getPregnancyWeek(user.dueDate);
+  const week = user.dueDate ? getPregnancyWeek(user.dueDate) : 20;
   const trimester = getTrimester(week);
-  const daysLeft = getDaysUntilDue(user.dueDate);
+  const daysLeft = user.dueDate ? getDaysUntilDue(user.dueDate) : 0;
   const progress = getProgressPercent(week);
   const weekData = getWeekData(week);
   const beContent = getBeContentForWeek(week);
