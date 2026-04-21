@@ -1,0 +1,133 @@
+'use client';
+
+import { AppShell } from '@/components/layout/app-shell';
+import { useBloomStore } from '@/lib/store';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { getPregnancyWeek, formatDueDate, getDaysUntilDue } from '@/lib/utils/pregnancy';
+import { Flame, Download, LogOut, User } from 'lucide-react';
+
+export default function ProfilePage() {
+  const { user, streak, logs, logout } = useBloomStore();
+  if (!user) return null;
+
+  const week = getPregnancyWeek(user.dueDate);
+  const daysLeft = getDaysUntilDue(user.dueDate);
+
+  const handleExport = () => {
+    const csv = [
+      'date,week,mood,energy,sleep,symptoms,decisions,notes',
+      ...logs.map(l =>
+        `${l.date},${l.pregnancyWeek},${l.moodScore},${l.energyLevel},${l.sleepQuality},"${l.symptoms.join('|')}",${l.decisions},"${l.notes}"`
+      ),
+    ].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bloom-export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <AppShell>
+      <div className="max-w-lg mx-auto px-4 md:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-white">Profile</h1>
+        </div>
+
+        {/* User info */}
+        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-rose-500/15 rounded-full flex items-center justify-center">
+                <User className="w-6 h-6 text-rose-400" />
+              </div>
+              <div>
+                <p className="text-white font-medium">{user.email}</p>
+                <p className="text-zinc-500 text-sm">
+                  Pregnancy {user.pregnancyNumber === 1 ? '1st' : user.pregnancyNumber === 2 ? '2nd' : '3rd+'}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Pregnancy info */}
+        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
+              Pregnancy
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 space-y-3">
+            <div className="flex justify-between">
+              <span className="text-zinc-400 text-sm">Current week</span>
+              <span className="text-white font-medium">Week {week}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-400 text-sm">Due date</span>
+              <span className="text-white font-medium">{formatDueDate(user.dueDate)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-400 text-sm">Days remaining</span>
+              <span className="text-white font-medium">{daysLeft} days</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Stats */}
+        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
+              Your stats
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 space-y-3">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-2 text-zinc-400 text-sm">
+                <Flame className="w-4 h-4 text-orange-400" />
+                Current streak
+              </div>
+              <span className="text-white font-medium">{streak.currentStreak} days</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-400 text-sm">Longest streak</span>
+              <span className="text-white font-medium">{streak.longestStreak} days</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-zinc-400 text-sm">Total days logged</span>
+              <span className="text-white font-medium">{logs.length} days</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Actions */}
+        <div className="space-y-3">
+          <Button
+            variant="outline"
+            className="w-full border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 justify-start gap-3"
+            onClick={handleExport}
+          >
+            <Download className="w-4 h-4" />
+            Export my data (.csv)
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full border-zinc-800 text-zinc-500 hover:text-rose-400 hover:border-rose-500/30 justify-start gap-3"
+            onClick={logout}
+          >
+            <LogOut className="w-4 h-4" />
+            Sign out
+          </Button>
+        </div>
+
+        <p className="text-zinc-700 text-xs text-center mt-8">
+          Bloom v0.1.0 · Your data is private by default
+        </p>
+      </div>
+    </AppShell>
+  );
+}
