@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
 import { getPregnancyWeek, getTrimester, getDaysUntilDue, getProgressPercent } from '@/lib/utils/pregnancy';
@@ -14,7 +16,13 @@ import { format } from 'date-fns';
 
 export default function DashboardPage() {
   const { user, streak, logs } = useBloomStore();
-  if (!user) return null;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && !user.dueDate) router.replace('/onboarding');
+  }, [user]);
+
+  if (!user || !user.dueDate) return null;
 
   const week = user.dueDate ? getPregnancyWeek(user.dueDate) : 20;
   const trimester = getTrimester(week);
