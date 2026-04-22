@@ -1,20 +1,37 @@
 'use client';
 
+import { useState } from 'react';
 import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { getPregnancyWeek, formatDueDate, getDaysUntilDue } from '@/lib/utils/pregnancy';
+import { updateProfile } from '@/lib/db';
+import { cn } from '@/lib/utils';
 import { Flame, Download, LogOut, User } from 'lucide-react';
 
 export default function ProfilePage() {
-  const { user, streak, logs, logout } = useBloomStore();
+  const { user, streak, logs, logout, setUser } = useBloomStore();
   if (!user) return null;
 
   const hasDueDate = !!user.dueDate;
   const week = hasDueDate ? getPregnancyWeek(user.dueDate) : 0;
   const daysLeft = hasDueDate ? getDaysUntilDue(user.dueDate) : 0;
+
+  const [babySex, setBabySex] = useState<'boy' | 'girl' | 'unknown'>(user.babySex ?? 'unknown');
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleSaveBabySex = async (value: 'boy' | 'girl' | 'unknown') => {
+    setBabySex(value);
+    setSaving(true);
+    setSaved(false);
+    await updateProfile(user.id, { baby_sex: value });
+    setUser({ ...user, babySex: value });
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
 
   const handleExport = () => {
     const csv = [
@@ -76,6 +93,43 @@ export default function ProfilePage() {
               <span className="text-gray-500 text-sm">Days remaining</span>
               <span className="text-gray-900 font-medium">{hasDueDate ? `${daysLeft} days` : '—'}</span>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Baby sex */}
+        <Card className="bg-white border-gray-200 mb-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              Baby
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-gray-500 text-sm mb-3">Baby's sex</p>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { value: 'girl' as const, label: 'Girl', emoji: '💗' },
+                { value: 'boy' as const, label: 'Boy', emoji: '💙' },
+                { value: 'unknown' as const, label: "Don't know", emoji: '🤍' },
+              ].map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => handleSaveBabySex(opt.value)}
+                  disabled={saving}
+                  className={cn(
+                    'py-3 px-2 rounded-xl border text-sm font-medium transition-all flex flex-col items-center gap-1',
+                    babySex === opt.value
+                      ? 'bg-rose-500/15 border-rose-500/40 text-rose-500'
+                      : 'border-gray-300 text-gray-500 hover:border-gray-400'
+                  )}
+                >
+                  <span className="text-xl">{opt.emoji}</span>
+                  <span>{opt.label}</span>
+                </button>
+              ))}
+            </div>
+            {saved && (
+              <p className="text-rose-400 text-xs mt-2 text-center">Saved ✓</p>
+            )}
           </CardContent>
         </Card>
 
