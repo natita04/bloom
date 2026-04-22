@@ -18,6 +18,7 @@ async function loadUserData(supabaseUser: User, store: ReturnType<typeof useBloo
     name: profile?.name ?? supabaseUser.email!.split('@')[0],
     dueDate: profile?.due_date ?? '',
     pregnancyNumber: profile?.pregnancy_number ?? 1,
+    babySex: (profile?.baby_sex ?? 'unknown') as 'boy' | 'girl' | 'unknown',
     partnerMode: profile?.partner_mode ?? false,
     createdAt: supabaseUser.created_at,
   });

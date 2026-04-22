@@ -15,6 +15,7 @@ export async function fetchProfile(userId: string) {
 export async function updateProfile(userId: string, fields: {
   due_date?: string;
   pregnancy_number?: number;
+  baby_sex?: 'boy' | 'girl' | 'unknown';
   partner_mode?: boolean;
   name?: string;
 }) {

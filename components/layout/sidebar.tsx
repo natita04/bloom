@@ -30,26 +30,26 @@ export function Sidebar() {
   const trimester = getTrimester(week);
 
   return (
-    <aside className="hidden md:flex flex-col w-56 shrink-0 border-r border-zinc-800 bg-zinc-950 h-screen sticky top-0">
+    <aside className="hidden md:flex flex-col w-56 shrink-0 border-r border-gray-200 bg-white h-screen sticky top-0">
       {/* Logo */}
-      <div className="flex items-center gap-2 px-5 h-16 border-b border-zinc-800">
+      <div className="flex items-center gap-2 px-5 h-16 border-b border-gray-200">
         <span className="text-rose-400 text-xl">🌸</span>
-        <span className="font-semibold text-white tracking-tight text-lg">bloom</span>
+        <span className="font-semibold text-gray-900 tracking-tight text-lg">bloom</span>
       </div>
 
       {/* Week badge */}
       <div className="px-4 pt-5 pb-4">
-        <div className="bg-zinc-900 rounded-xl p-3 border border-zinc-800">
-          <p className="text-xs text-zinc-500 mb-0.5">You are in</p>
-          <p className="text-white font-semibold text-sm">Week {week}</p>
-          <p className="text-zinc-400 text-xs">Trimester {trimester}</p>
-          <div className="mt-2 bg-zinc-800 rounded-full h-1.5 w-full">
+        <div className="bg-gray-50 rounded-xl p-3 border border-gray-200">
+          <p className="text-xs text-gray-400 mb-0.5">You are in</p>
+          <p className="text-gray-900 font-semibold text-sm">Week {week}</p>
+          <p className="text-gray-500 text-xs">Trimester {trimester}</p>
+          <div className="mt-2 bg-gray-100 rounded-full h-1.5 w-full">
             <div
               className="bg-rose-500 h-1.5 rounded-full transition-all"
               style={{ width: `${Math.min(100, Math.round((week / 40) * 100))}%` }}
             />
           </div>
-          <p className="text-zinc-600 text-xs mt-1">{week} of 40 weeks</p>
+          <p className="text-gray-400 text-xs mt-1">{week} of 40 weeks</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ export function Sidebar() {
               'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
               pathname === href || pathname.startsWith(href + '/')
                 ? 'bg-rose-500/10 text-rose-400 font-medium'
-                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
             )}
           >
             <Icon className="w-4 h-4 shrink-0" />
@@ -73,13 +73,13 @@ export function Sidebar() {
       </nav>
 
       {/* Streak + Profile */}
-      <div className="px-4 pb-5 pt-3 border-t border-zinc-800 space-y-3">
+      <div className="px-4 pb-5 pt-3 border-t border-gray-200 space-y-3">
         {/* Streak */}
         <div className="flex items-center gap-2 px-2">
           <Flame className="w-4 h-4 text-orange-400" />
-          <span className="text-sm text-zinc-300">
-            <span className="font-semibold text-white">{streak.currentStreak}</span>
-            <span className="text-zinc-500"> day streak</span>
+          <span className="text-sm text-gray-600">
+            <span className="font-semibold text-gray-900">{streak.currentStreak}</span>
+            <span className="text-gray-400"> day streak</span>
           </span>
         </div>
 
@@ -89,7 +89,7 @@ export function Sidebar() {
             'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
             pathname === '/profile'
               ? 'bg-rose-500/10 text-rose-400 font-medium'
-              : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60'
+              : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
           )}
         >
           <User className="w-4 h-4 shrink-0" />
@@ -103,7 +103,7 @@ export function Sidebar() {
 export function MobileNav() {
   const pathname = usePathname();
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-zinc-950 border-t border-zinc-800 z-50">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50">
       <div className="flex items-center justify-around h-16 px-2">
         {navItems.map(({ href, label, icon: Icon }) => (
           <Link
@@ -113,7 +113,7 @@ export function MobileNav() {
               'flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-xs transition-colors',
               pathname === href
                 ? 'text-rose-400'
-                : 'text-zinc-500 hover:text-zinc-300'
+                : 'text-gray-400 hover:text-gray-600'
             )}
           >
             <Icon className="w-5 h-5" />

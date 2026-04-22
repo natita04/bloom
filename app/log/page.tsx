@@ -84,8 +84,8 @@ export default function LogPage() {
           <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
             <Check className="w-8 h-8 text-rose-400" />
           </div>
-          <h2 className="text-white text-xl font-bold mb-2">Logged.</h2>
-          <p className="text-zinc-400">Streak kept alive. Heading back to dashboard…</p>
+          <h2 className="text-gray-900 text-xl font-bold mb-2">Logged.</h2>
+          <p className="text-gray-500">Streak kept alive. Heading back to dashboard…</p>
         </div>
       </AppShell>
     );
@@ -95,9 +95,9 @@ export default function LogPage() {
     <AppShell>
       <div className="max-w-lg mx-auto px-4 md:px-8 py-8">
         <div className="mb-8">
-          <p className="text-zinc-500 text-sm">{format(new Date(), 'EEEE, MMMM d')}</p>
-          <h1 className="text-2xl font-bold text-white mt-0.5">Daily Log</h1>
-          <p className="text-zinc-400 text-sm mt-1">Under 60 seconds. No wrong answers.</p>
+          <p className="text-gray-400 text-sm">{format(new Date(), 'EEEE, MMMM d')}</p>
+          <h1 className="text-2xl font-bold text-gray-900 mt-0.5">Daily Log</h1>
+          <p className="text-gray-500 text-sm mt-1">Under 60 seconds. No wrong answers.</p>
         </div>
 
         {existingLog && (
@@ -108,9 +108,9 @@ export default function LogPage() {
         )}
 
         {/* Mood */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+        <Card className="bg-white border-gray-200 mb-4">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
+            <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
               How are you feeling?
             </CardTitle>
           </CardHeader>
@@ -123,11 +123,11 @@ export default function LogPage() {
                   className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${
                     selectedMood === mood.score
                       ? 'bg-rose-500/20 ring-1 ring-rose-500/50'
-                      : 'hover:bg-zinc-800'
+                      : 'hover:bg-gray-100'
                   }`}
                 >
                   <span className="text-2xl">{mood.emoji}</span>
-                  <span className="text-xs text-zinc-400">{mood.label}</span>
+                  <span className="text-xs text-gray-500">{mood.label}</span>
                 </button>
               ))}
             </div>
@@ -135,12 +135,12 @@ export default function LogPage() {
         </Card>
 
         {/* Energy & Sleep */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+        <Card className="bg-white border-gray-200 mb-4">
           <CardContent className="p-5 space-y-5">
             <div>
               <div className="flex justify-between mb-3">
-                <span className="text-sm text-zinc-300 font-medium">Energy level</span>
-                <span className="text-sm text-white font-bold">{energy}/10</span>
+                <span className="text-sm text-gray-600 font-medium">Energy level</span>
+                <span className="text-sm text-gray-900 font-bold">{energy}/10</span>
               </div>
               <Slider
                 value={[energy]}
@@ -149,14 +149,14 @@ export default function LogPage() {
                 className="[&_[role=slider]]:bg-amber-400 [&_[role=slider]]:border-amber-400"
               />
               <div className="flex justify-between mt-1">
-                <span className="text-xs text-zinc-600">Depleted</span>
-                <span className="text-xs text-zinc-600">Energized</span>
+                <span className="text-xs text-gray-400">Depleted</span>
+                <span className="text-xs text-gray-400">Energized</span>
               </div>
             </div>
             <div>
               <div className="flex justify-between mb-3">
-                <span className="text-sm text-zinc-300 font-medium">Sleep quality</span>
-                <span className="text-sm text-white font-bold">{sleep}/10</span>
+                <span className="text-sm text-gray-600 font-medium">Sleep quality</span>
+                <span className="text-sm text-gray-900 font-bold">{sleep}/10</span>
               </div>
               <Slider
                 value={[sleep]}
@@ -165,18 +165,18 @@ export default function LogPage() {
                 className="[&_[role=slider]]:bg-violet-400 [&_[role=slider]]:border-violet-400"
               />
               <div className="flex justify-between mt-1">
-                <span className="text-xs text-zinc-600">Terrible</span>
-                <span className="text-xs text-zinc-600">Restful</span>
+                <span className="text-xs text-gray-400">Terrible</span>
+                <span className="text-xs text-gray-400">Restful</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Symptoms */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+        <Card className="bg-white border-gray-200 mb-4">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
-              Any symptoms today? <span className="text-zinc-600 normal-case font-normal">(optional)</span>
+            <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              Any symptoms today? <span className="text-gray-400 normal-case font-normal">(optional)</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
@@ -188,7 +188,7 @@ export default function LogPage() {
                   className={`px-3 py-1.5 rounded-full text-sm border transition-all ${
                     selectedSymptoms.includes(symptom)
                       ? 'bg-rose-500/15 border-rose-500/40 text-rose-300'
-                      : 'border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-300'
+                      : 'border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600'
                   }`}
                 >
                   {symptom}
@@ -199,10 +199,10 @@ export default function LogPage() {
         </Card>
 
         {/* Decision fatigue tracker */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-4">
+        <Card className="bg-white border-gray-200 mb-4">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
+              <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
                 Decisions today
               </CardTitle>
               <Badge className="bg-violet-500/10 text-violet-400 border-violet-500/20 text-xs">
@@ -211,7 +211,7 @@ export default function LogPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-0">
-            <p className="text-zinc-500 text-xs mb-3">How many significant decisions did you make or face today?</p>
+            <p className="text-gray-400 text-xs mb-3">How many significant decisions did you make or face today?</p>
             <div className="flex gap-2">
               {[1, 2, 3, 4, '5+'].map((n) => (
                 <button
@@ -220,7 +220,7 @@ export default function LogPage() {
                   className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-all ${
                     (n === '5+' ? decisions >= 5 : decisions === Number(n))
                       ? 'bg-violet-500/15 border-violet-500/40 text-violet-300'
-                      : 'border-zinc-700 text-zinc-500 hover:border-zinc-600'
+                      : 'border-gray-300 text-gray-400 hover:border-gray-400'
                   }`}
                 >
                   {n}
@@ -236,10 +236,10 @@ export default function LogPage() {
         </Card>
 
         {/* Notes */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-6">
+        <Card className="bg-white border-gray-200 mb-6">
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wide">
-              Notes <span className="text-zinc-600 normal-case font-normal">(optional)</span>
+            <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              Notes <span className="text-gray-400 normal-case font-normal">(optional)</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
@@ -247,7 +247,7 @@ export default function LogPage() {
               placeholder="Anything worth remembering today…"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="bg-zinc-800 border-zinc-700 text-zinc-200 placeholder:text-zinc-600 resize-none focus:border-rose-500/50 focus:ring-rose-500/20"
+              className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 resize-none focus:border-rose-500/50 focus:ring-rose-500/20"
               rows={3}
             />
           </CardContent>

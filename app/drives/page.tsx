@@ -20,10 +20,10 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function BiasCard({ bias, defaultOpen = false }: { bias: BiasReference; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
-  const colorClass = CATEGORY_COLORS[bias.category] ?? 'text-zinc-400 bg-zinc-800 border-zinc-700';
+  const colorClass = CATEGORY_COLORS[bias.category] ?? 'text-gray-500 bg-gray-100 border-gray-200';
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
+    <Card className="bg-white border-gray-200 overflow-hidden">
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full text-left"
@@ -36,14 +36,14 @@ function BiasCard({ bias, defaultOpen = false }: { bias: BiasReference; defaultO
                   {bias.category}
                 </Badge>
               </div>
-              <CardTitle className="text-white text-base">{bias.name}</CardTitle>
-              <p className="text-zinc-400 text-sm mt-1 leading-relaxed">{bias.plainDefinition}</p>
+              <CardTitle className="text-gray-900 text-base">{bias.name}</CardTitle>
+              <p className="text-gray-500 text-sm mt-1 leading-relaxed">{bias.plainDefinition}</p>
             </div>
             <div className="shrink-0 mt-0.5">
               {open ? (
-                <ChevronUp className="w-4 h-4 text-zinc-500" />
+                <ChevronUp className="w-4 h-4 text-gray-400" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-zinc-500" />
+                <ChevronDown className="w-4 h-4 text-gray-400" />
               )}
             </div>
           </div>
@@ -51,22 +51,22 @@ function BiasCard({ bias, defaultOpen = false }: { bias: BiasReference; defaultO
       </button>
 
       {open && (
-        <CardContent className="pt-0 pb-4 space-y-3 border-t border-zinc-800">
+        <CardContent className="pt-0 pb-4 space-y-3 border-t border-gray-200">
           <div className="pt-3">
-            <p className="text-xs text-zinc-500 uppercase tracking-wide font-medium mb-1">In pregnancy</p>
-            <p className="text-zinc-300 text-sm leading-relaxed">{bias.pregnancyExample}</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">In pregnancy</p>
+            <p className="text-gray-600 text-sm leading-relaxed">{bias.pregnancyExample}</p>
           </div>
-          <div className="bg-zinc-800/50 rounded-lg p-3">
-            <p className="text-xs text-zinc-500 uppercase tracking-wide font-medium mb-1">The research</p>
-            <p className="text-zinc-400 text-xs italic">{bias.dataReference}</p>
+          <div className="bg-gray-100 rounded-lg p-3">
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-1">The research</p>
+            <p className="text-gray-500 text-xs italic">{bias.dataReference}</p>
           </div>
           <div className="bg-violet-500/5 border border-violet-500/20 rounded-lg p-3">
             <p className="text-xs text-violet-400 uppercase tracking-wide font-medium mb-1">What to do with it</p>
-            <p className="text-zinc-300 text-sm">{bias.whatToDoWithIt}</p>
+            <p className="text-gray-600 text-sm">{bias.whatToDoWithIt}</p>
           </div>
           <div className="flex gap-1 flex-wrap">
             {bias.trimesterRelevance.map(t => (
-              <Badge key={t} className="bg-zinc-800 text-zinc-400 border-zinc-700 text-xs">
+              <Badge key={t} className="bg-gray-100 text-gray-500 border-gray-200 text-xs">
                 Trimester {t}
               </Badge>
             ))}
@@ -109,15 +109,15 @@ export default function DrivesPage() {
     <AppShell>
       <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white">What Drives Me</h1>
-          <p className="text-zinc-400 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-gray-900">What Drives Me</h1>
+          <p className="text-gray-500 text-sm mt-1">
             Your psychological profile — updated as you log.
           </p>
         </div>
 
         {/* Personal patterns */}
         <div className="mb-8">
-          <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+          <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
             <Brain className="w-4 h-4" /> Your patterns — last 14 days
           </h2>
           <div className="grid grid-cols-1 gap-3">
@@ -126,17 +126,17 @@ export default function DrivesPage() {
                 'border',
                 avgMoodHighDecision < avgMoodOverall - 0.5
                   ? 'bg-amber-500/5 border-amber-500/20'
-                  : 'bg-zinc-900 border-zinc-800'
+                  : 'bg-white border-gray-200'
               )}>
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     <TrendingDown className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-white text-sm font-medium">Decision fatigue pattern</p>
-                      <p className="text-zinc-400 text-sm mt-1 leading-relaxed">
+                      <p className="text-gray-900 text-sm font-medium">Decision fatigue pattern</p>
+                      <p className="text-gray-500 text-sm mt-1 leading-relaxed">
                         On high-decision days, your mood averages{' '}
-                        <span className="text-white font-medium">{avgMoodHighDecision.toFixed(1)}</span> vs{' '}
-                        <span className="text-white font-medium">{avgMoodOverall.toFixed(1)}</span> overall.
+                        <span className="text-gray-900 font-medium">{avgMoodHighDecision.toFixed(1)}</span> vs{' '}
+                        <span className="text-gray-900 font-medium">{avgMoodOverall.toFixed(1)}</span> overall.
                         {avgMoodHighDecision < avgMoodOverall - 0.5
                           ? ' This is textbook decision fatigue.'
                           : ' You\'re holding up well under load.'}
@@ -153,10 +153,10 @@ export default function DrivesPage() {
                   <div className="flex items-start gap-3">
                     <AlertCircle className="w-4 h-4 text-violet-400 mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-white text-sm font-medium">Anxiety frequency</p>
-                      <p className="text-zinc-400 text-sm mt-1">
+                      <p className="text-gray-900 text-sm font-medium">Anxiety frequency</p>
+                      <p className="text-gray-500 text-sm mt-1">
                         You logged anxiety on{' '}
-                        <span className="text-white font-medium">{anxietyDays} of the last 14 days</span>.
+                        <span className="text-gray-900 font-medium">{anxietyDays} of the last 14 days</span>.
                         {' '}In T{trimester}, elevated cortisol makes this physiologically expected — not a sign something is wrong.
                       </p>
                     </div>
@@ -171,10 +171,10 @@ export default function DrivesPage() {
                   <div className="flex items-start gap-3">
                     <AlertCircle className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-white text-sm font-medium">Sleep deficit</p>
-                      <p className="text-zinc-400 text-sm mt-1">
+                      <p className="text-gray-900 text-sm font-medium">Sleep deficit</p>
+                      <p className="text-gray-500 text-sm mt-1">
                         Your average sleep quality is{' '}
-                        <span className="text-white font-medium">{avgSleep}/10</span> — below typical recovery threshold.
+                        <span className="text-gray-900 font-medium">{avgSleep}/10</span> — below typical recovery threshold.
                         Poor sleep amplifies loss aversion and negativity bias significantly.
                       </p>
                     </div>
@@ -184,9 +184,9 @@ export default function DrivesPage() {
             )}
 
             {last14.length < 5 && (
-              <Card className="bg-zinc-900 border-zinc-800">
+              <Card className="bg-white border-gray-200">
                 <CardContent className="p-4 text-center">
-                  <p className="text-zinc-500 text-sm">
+                  <p className="text-gray-400 text-sm">
                     Log for at least 5 days to see your personal patterns here.
                   </p>
                 </CardContent>
@@ -198,7 +198,7 @@ export default function DrivesPage() {
         {/* Trimester-relevant biases */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wide">
+            <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide">
               Biases active in Trimester {trimester}
             </h2>
             <Badge className="bg-rose-500/10 text-rose-400 border-rose-500/20 text-xs">
@@ -215,7 +215,7 @@ export default function DrivesPage() {
         {/* Other biases */}
         {otherBiases.length > 0 && (
           <div>
-            <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wide mb-3">
+            <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-3">
               Full bias reference library
             </h2>
             <div className="space-y-2">

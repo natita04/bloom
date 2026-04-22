@@ -35,6 +35,7 @@ export default function LoginPage() {
         name: data.user.user_metadata?.name ?? email.split('@')[0],
         dueDate: data.user.user_metadata?.due_date ?? '',
         pregnancyNumber: data.user.user_metadata?.pregnancy_number ?? 1,
+        babySex: (data.user.user_metadata?.baby_sex ?? 'unknown') as 'boy' | 'girl' | 'unknown',
         partnerMode: data.user.user_metadata?.partner_mode ?? false,
         createdAt: data.user.created_at,
       });
@@ -50,22 +51,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <span className="text-4xl">🌸</span>
-          <h1 className="text-2xl font-bold text-white mt-3">bloom</h1>
-          <p className="text-zinc-400 text-sm mt-1">Your pregnancy, understood.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mt-3">bloom</h1>
+          <p className="text-gray-500 text-sm mt-1">Your pregnancy, understood.</p>
         </div>
 
-        <Card className="bg-zinc-900 border-zinc-800">
+        <Card className="bg-white border-gray-200">
           <CardHeader className="pb-4">
-            <CardTitle className="text-white text-lg">Sign in</CardTitle>
+            <CardTitle className="text-gray-900 text-lg">Sign in</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
-                <Label htmlFor="email" className="text-zinc-300 text-sm">Email</Label>
+                <Label htmlFor="email" className="text-gray-600 text-sm">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -73,11 +74,11 @@ export default function LoginPage() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600 focus:border-rose-500/50"
+                  className="mt-1 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-rose-500/50"
                 />
               </div>
               <div>
-                <Label htmlFor="password" className="text-zinc-300 text-sm">Password</Label>
+                <Label htmlFor="password" className="text-gray-600 text-sm">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -85,7 +86,7 @@ export default function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600 focus:border-rose-500/50"
+                  className="mt-1 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-rose-500/50"
                 />
               </div>
               {error && (
@@ -101,7 +102,7 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-4 text-center">
-              <p className="text-zinc-500 text-sm">
+              <p className="text-gray-400 text-sm">
                 No account?{' '}
                 <Link href="/signup" className="text-rose-400 hover:text-rose-300">
                   Create one
@@ -109,10 +110,10 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-zinc-800">
+            <div className="mt-4 pt-4 border-t border-gray-200">
               <Button
                 variant="outline"
-                className="w-full border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800"
+                className="w-full border-gray-300 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 onClick={handleGoogleLogin}
                 type="button"
               >

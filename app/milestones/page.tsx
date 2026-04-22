@@ -69,25 +69,25 @@ export default function MilestonesPage() {
     <AppShell>
       <div className="max-w-2xl mx-auto px-4 md:px-8 py-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-white">Milestones</h1>
-          <p className="text-zinc-400 text-sm mt-1">Track appointments, prep tasks, and moments.</p>
+          <h1 className="text-2xl font-bold text-gray-900">Milestones</h1>
+          <p className="text-gray-500 text-sm mt-1">Track appointments, prep tasks, and moments.</p>
         </div>
 
         {/* Progress summary */}
-        <Card className="bg-zinc-900 border-zinc-800 mb-5">
+        <Card className="bg-white border-gray-200 mb-5">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <p className="text-white font-semibold">
+                <p className="text-gray-900 font-semibold">
                   {completedCount} of {totalCount} complete
                 </p>
-                <p className="text-zinc-500 text-sm">{upcomingCount > 0 ? `${upcomingCount} due in the next 4 weeks` : 'No urgent milestones'}</p>
+                <p className="text-gray-400 text-sm">{upcomingCount > 0 ? `${upcomingCount} due in the next 4 weeks` : 'No urgent milestones'}</p>
               </div>
               <div className="text-right">
                 <p className="text-rose-400 font-bold text-xl">{Math.round((completedCount / totalCount) * 100)}%</p>
               </div>
             </div>
-            <div className="bg-zinc-800 rounded-full h-2">
+            <div className="bg-gray-100 rounded-full h-2">
               <div
                 className="bg-gradient-to-r from-rose-500 to-rose-400 h-2 rounded-full transition-all"
                 style={{ width: `${(completedCount / totalCount) * 100}%` }}
@@ -106,7 +106,7 @@ export default function MilestonesPage() {
                 'px-3 py-1.5 rounded-full text-sm border transition-all',
                 filter === key
                   ? 'bg-rose-500/15 border-rose-500/40 text-rose-300'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-300'
+                  : 'border-gray-300 text-gray-500 hover:border-gray-400 hover:text-gray-600'
               )}
             >
               {label}
@@ -129,7 +129,7 @@ export default function MilestonesPage() {
                 key={milestone.id}
                 className={cn(
                   'border transition-all',
-                  done ? 'bg-zinc-900/50 border-zinc-800/50 opacity-60' : 'bg-zinc-900 border-zinc-800',
+                  done ? 'bg-gray-50 border-gray-200 opacity-60' : 'bg-white border-gray-200',
                   isThisWeek && !done && 'border-amber-500/30 bg-amber-500/5'
                 )}
               >
@@ -146,13 +146,13 @@ export default function MilestonesPage() {
                     >
                       {done
                         ? <CheckCircle2 className="w-5 h-5 text-rose-400" />
-                        : <Circle className="w-5 h-5 text-zinc-600 hover:text-zinc-400" />
+                        : <Circle className="w-5 h-5 text-gray-300 hover:text-gray-500" />
                       }
                     </button>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <p className={cn('font-medium text-sm', done ? 'line-through text-zinc-500' : 'text-white')}>
+                        <p className={cn('font-medium text-sm', done ? 'line-through text-gray-400' : 'text-gray-900')}>
                           {milestone.title}
                         </p>
                         <div className="flex items-center gap-2 shrink-0">
@@ -162,15 +162,15 @@ export default function MilestonesPage() {
                           </Badge>
                         </div>
                       </div>
-                      <p className="text-zinc-500 text-xs mt-0.5">{milestone.description}</p>
+                      <p className="text-gray-400 text-xs mt-0.5">{milestone.description}</p>
                       <div className="flex items-center gap-2 mt-2">
-                        <span className="text-xs text-zinc-600">Week {milestone.week}</span>
+                        <span className="text-xs text-gray-400">Week {milestone.week}</span>
                         {!done && (
                           <span className={cn(
                             'flex items-center gap-1 text-xs',
                             isPast ? 'text-rose-400' :
                             isThisWeek ? 'text-amber-400' :
-                            weeksAway <= 2 ? 'text-amber-400/70' : 'text-zinc-600'
+                            weeksAway <= 2 ? 'text-amber-400/70' : 'text-gray-400'
                           )}>
                             <Clock className="w-3 h-3" />
                             {isPast
@@ -194,7 +194,7 @@ export default function MilestonesPage() {
         </div>
 
         {filteredMilestones.length === 0 && (
-          <div className="text-center py-16 text-zinc-600">
+          <div className="text-center py-16 text-gray-400">
             <p>No milestones in this view.</p>
           </div>
         )}

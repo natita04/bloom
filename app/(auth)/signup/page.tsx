@@ -45,12 +45,12 @@ export default function SignupPage() {
 
   if (emailSent) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="w-full max-w-sm text-center">
           <span className="text-4xl">🌸</span>
-          <h2 className="text-white text-xl font-bold mt-4 mb-2">Check your email</h2>
-          <p className="text-zinc-400 text-sm">
-            We sent a confirmation link to <span className="text-white">{email}</span>.
+          <h2 className="text-gray-900 text-xl font-bold mt-4 mb-2">Check your email</h2>
+          <p className="text-gray-500 text-sm">
+            We sent a confirmation link to <span className="text-gray-900">{email}</span>.
             Click it to activate your account.
           </p>
         </div>
@@ -59,22 +59,22 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <span className="text-4xl">🌸</span>
-          <h1 className="text-2xl font-bold text-white mt-3">bloom</h1>
-          <p className="text-zinc-400 text-sm mt-1">Start tracking your journey.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mt-3">bloom</h1>
+          <p className="text-gray-500 text-sm mt-1">Start tracking your journey.</p>
         </div>
 
-        <Card className="bg-zinc-900 border-zinc-800">
+        <Card className="bg-white border-gray-200">
           <CardHeader className="pb-4">
-            <CardTitle className="text-white text-lg">Create account</CardTitle>
+            <CardTitle className="text-gray-900 text-lg">Create account</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSignup} className="space-y-4">
               <div>
-                <Label htmlFor="email" className="text-zinc-300 text-sm">Email</Label>
+                <Label htmlFor="email" className="text-gray-600 text-sm">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -82,11 +82,11 @@ export default function SignupPage() {
                   onChange={e => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   required
-                  className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600 focus:border-rose-500/50"
+                  className="mt-1 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-rose-500/50"
                 />
               </div>
               <div>
-                <Label htmlFor="password" className="text-zinc-300 text-sm">Password</Label>
+                <Label htmlFor="password" className="text-gray-600 text-sm">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -95,7 +95,7 @@ export default function SignupPage() {
                   placeholder="At least 8 characters"
                   minLength={8}
                   required
-                  className="mt-1 bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600 focus:border-rose-500/50"
+                  className="mt-1 bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 focus:border-rose-500/50"
                 />
               </div>
               {error && (
@@ -110,10 +110,10 @@ export default function SignupPage() {
               </Button>
             </form>
 
-            <div className="mt-4 pt-4 border-t border-zinc-800">
+            <div className="mt-4 pt-4 border-t border-gray-200">
               <Button
                 variant="outline"
-                className="w-full border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800"
+                className="w-full border-gray-300 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 onClick={handleGoogleSignup}
                 type="button"
               >
@@ -121,7 +121,7 @@ export default function SignupPage() {
               </Button>
             </div>
 
-            <p className="text-center text-zinc-500 text-sm mt-4">
+            <p className="text-center text-gray-400 text-sm mt-4">
               Already have an account?{' '}
               <Link href="/login" className="text-rose-400 hover:text-rose-300">
                 Sign in
@@ -130,7 +130,7 @@ export default function SignupPage() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-zinc-600 text-xs mt-4 max-w-xs mx-auto">
+        <p className="text-center text-gray-400 text-xs mt-4 max-w-xs mx-auto">
           Your data is private by default.
         </p>
       </div>

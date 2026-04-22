@@ -4,6 +4,7 @@ export interface User {
   name: string;
   dueDate: string; // ISO date string
   pregnancyNumber: number; // 1st, 2nd, 3rd pregnancy
+  babySex: 'boy' | 'girl' | 'unknown';
   partnerMode: boolean;
   createdAt: string;
 }
