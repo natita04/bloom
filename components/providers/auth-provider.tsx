@@ -19,6 +19,7 @@ async function loadUserData(supabaseUser: User, store: ReturnType<typeof useBloo
     dueDate: profile?.due_date ?? '',
     pregnancyNumber: profile?.pregnancy_number ?? 1,
     babySex: (profile?.baby_sex ?? 'unknown') as 'boy' | 'girl' | 'unknown',
+    country: (profile?.country ?? 'US') as 'US' | 'UK' | 'IL',
     partnerMode: profile?.partner_mode ?? false,
     createdAt: supabaseUser.created_at,
   });

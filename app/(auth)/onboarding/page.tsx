@@ -8,9 +8,11 @@ import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { useBloomStore } from '@/lib/store';
 import { updateProfile } from '@/lib/db';
+import { COUNTRIES } from '@/lib/data/country-schedules';
 import { cn } from '@/lib/utils';
+import type { Country } from '@/lib/types';
 
-const steps = ['Due date', 'Pregnancy', 'Baby sex', 'Partner mode'];
+const steps = ['Due date', 'Pregnancy', 'Baby sex', 'Location', 'Partner mode'];
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function OnboardingPage() {
   const [dueDate, setDueDate] = useState('');
   const [pregnancyNumber, setPregnancyNumber] = useState(1);
   const [babySex, setBabySex] = useState<'boy' | 'girl' | 'unknown'>('unknown');
+  const [country, setCountry] = useState<Country>('US');
   const [partnerMode, setPartnerMode] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -29,6 +32,7 @@ export default function OnboardingPage() {
         due_date: dueDate,
         pregnancy_number: pregnancyNumber,
         baby_sex: babySex,
+        country,
         partner_mode: partnerMode,
       });
     }
@@ -39,6 +43,7 @@ export default function OnboardingPage() {
       dueDate,
       pregnancyNumber,
       babySex,
+      country,
       partnerMode,
       createdAt: new Date().toISOString(),
     });
@@ -169,8 +174,44 @@ export default function OnboardingPage() {
           </Card>
         )}
 
-        {/* Step 3 — Partner mode */}
+        {/* Step 3 — Country */}
         {step === 3 && (
+          <Card className="bg-white border-gray-200">
+            <CardContent className="p-5">
+              <p className="text-gray-500 text-sm mb-4">
+                Where are you based? This tailors your milestone schedule to your country's standard antenatal care.
+              </p>
+              <div className="space-y-2 mb-4">
+                {COUNTRIES.map(c => (
+                  <button
+                    key={c.code}
+                    onClick={() => setCountry(c.code)}
+                    className={cn(
+                      'w-full py-3 px-4 rounded-xl border text-sm font-medium transition-all flex items-center gap-3',
+                      country === c.code
+                        ? 'bg-rose-500/15 border-rose-500/40 text-rose-500'
+                        : 'border-gray-300 text-gray-500 hover:border-gray-400'
+                    )}
+                  >
+                    <span className="text-xl">{c.flag}</span>
+                    <span>{c.name}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1 border-gray-300 text-gray-500" onClick={() => setStep(2)}>
+                  Back
+                </Button>
+                <Button className="flex-1 bg-rose-500 hover:bg-rose-600 text-white" onClick={() => setStep(4)}>
+                  Continue
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Step 4 — Partner mode */}
+        {step === 4 && (
           <Card className="bg-white border-gray-200">
             <CardContent className="p-5">
               <p className="text-gray-500 text-sm mb-4">
@@ -196,7 +237,7 @@ export default function OnboardingPage() {
                 ))}
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="flex-1 border-gray-300 text-gray-500" onClick={() => setStep(2)}>
+                <Button variant="outline" className="flex-1 border-gray-300 text-gray-500" onClick={() => setStep(3)}>
                   Back
                 </Button>
                 <Button

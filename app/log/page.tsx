@@ -5,6 +5,8 @@ import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
 import { getPregnancyWeek } from '@/lib/utils/pregnancy';
 import { upsertLog, upsertStreak } from '@/lib/db';
+import { getBeContentForWeek } from '@/lib/data/be-content';
+import { getReflectionPrompt } from '@/lib/utils/be-insights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -45,9 +47,13 @@ export default function LogPage() {
   const [decisions, setDecisions] = useState<number>(existingLog?.decisions ?? 2);
   const [notes, setNotes] = useState<string>(existingLog?.notes ?? '');
   const [submitted, setSubmitted] = useState(false);
+  const [reflection, setReflection] = useState('');
+  const [savedLog, setSavedLog] = useState<DailyLog | null>(null);
 
   if (!user) return null;
   const week = getPregnancyWeek(user.dueDate);
+  const beContent = getBeContentForWeek(week);
+  const reflectionPrompt = getReflectionPrompt(beContent);
 
   const moodEntry = MOODS.find(m => m.score === selectedMood) ?? MOODS[2];
 
@@ -71,21 +77,73 @@ export default function LogPage() {
       pregnancyWeek: week,
     };
     addLog(log);
+    setSavedLog(log);
     const newStreak = useBloomStore.getState().streak;
     await Promise.all([upsertLog(log), upsertStreak(user.id, newStreak)]);
     setSubmitted(true);
-    setTimeout(() => router.push('/dashboard'), 1200);
+  };
+
+  const handleSaveReflection = async () => {
+    if (!savedLog || !reflection.trim()) {
+      router.push('/dashboard');
+      return;
+    }
+    const updatedLog: DailyLog = {
+      ...savedLog,
+      notes: savedLog.notes
+        ? `${savedLog.notes}\n\nReflection: ${reflection.trim()}`
+        : `Reflection: ${reflection.trim()}`,
+    };
+    addLog(updatedLog);
+    await upsertLog(updatedLog);
+    router.push('/dashboard');
   };
 
   if (submitted) {
     return (
       <AppShell>
-        <div className="max-w-lg mx-auto px-4 py-24 text-center">
-          <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Check className="w-8 h-8 text-rose-400" />
+        <div className="max-w-lg mx-auto px-4 py-16">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="w-7 h-7 text-rose-400" />
+            </div>
+            <h2 className="text-gray-900 text-xl font-bold mb-1">Logged.</h2>
+            <p className="text-gray-500 text-sm">Streak kept alive.</p>
           </div>
-          <h2 className="text-gray-900 text-xl font-bold mb-2">Logged.</h2>
-          <p className="text-gray-500">Streak kept alive. Heading back to dashboard…</p>
+
+          <Card className="bg-white border-gray-200">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Badge className="bg-violet-500/10 text-violet-400 border-violet-500/20 text-xs">
+                  {beContent.biasName}
+                </Badge>
+              </div>
+              <p className="text-gray-700 text-sm font-medium mb-3">{reflectionPrompt}</p>
+              <Textarea
+                placeholder="Optional — no wrong answers…"
+                value={reflection}
+                onChange={e => setReflection(e.target.value)}
+                className="bg-gray-50 border-gray-300 text-gray-900 placeholder:text-gray-400 resize-none focus:border-rose-500/50 focus:ring-rose-500/20 mb-4"
+                rows={3}
+              />
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1 border-gray-300 text-gray-500 hover:text-gray-700"
+                  onClick={() => router.push('/dashboard')}
+                >
+                  Skip
+                </Button>
+                <Button
+                  className="flex-1 bg-rose-500 hover:bg-rose-600 text-white"
+                  onClick={handleSaveReflection}
+                  disabled={!reflection.trim()}
+                >
+                  Save to journal
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </AppShell>
     );

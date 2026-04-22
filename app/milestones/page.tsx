@@ -5,7 +5,7 @@ import { AppShell } from '@/components/layout/app-shell';
 import { useBloomStore } from '@/lib/store';
 import { upsertMilestone } from '@/lib/db';
 import { getPregnancyWeek } from '@/lib/utils/pregnancy';
-import { defaultMilestones } from '@/lib/data/milestones';
+import { getMilestonesForCountry } from '@/lib/data/country-schedules';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -28,13 +28,14 @@ export default function MilestonesPage() {
 
   if (!user) return null;
   const currentWeek = getPregnancyWeek(user.dueDate);
+  const milestones = getMilestonesForCountry(user.country ?? 'US');
 
   const isCompleted = (id: string) =>
     !!userMilestones.find(m => m.milestoneId === id && m.completedAt);
 
   const weeksUntil = (week: number) => week - currentWeek;
 
-  const filteredMilestones = defaultMilestones
+  const filteredMilestones = milestones
     .filter(m => {
       if (filter === 'completed') return isCompleted(m.id);
       if (filter === 'upcoming') return !isCompleted(m.id) && m.week >= currentWeek;
@@ -51,9 +52,9 @@ export default function MilestonesPage() {
       return a.week - b.week;
     });
 
-  const completedCount = defaultMilestones.filter(m => isCompleted(m.id)).length;
-  const totalCount = defaultMilestones.length;
-  const upcomingCount = defaultMilestones.filter(m => !isCompleted(m.id) && m.week >= currentWeek && m.week <= currentWeek + 4).length;
+  const completedCount = milestones.filter(m => isCompleted(m.id)).length;
+  const totalCount = milestones.length;
+  const upcomingCount = milestones.filter(m => !isCompleted(m.id) && m.week >= currentWeek && m.week <= currentWeek + 4).length;
 
   const filters: { key: FilterType; label: string }[] = [
     { key: 'all', label: 'All' },

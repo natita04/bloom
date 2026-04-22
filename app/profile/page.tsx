@@ -7,8 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getPregnancyWeek, formatDueDate, getDaysUntilDue } from '@/lib/utils/pregnancy';
 import { updateProfile } from '@/lib/db';
+import { COUNTRIES } from '@/lib/data/country-schedules';
 import { cn } from '@/lib/utils';
 import { Flame, Download, LogOut, User } from 'lucide-react';
+import type { Country } from '@/lib/types';
 
 export default function ProfilePage() {
   const { user, streak, logs, logout, setUser } = useBloomStore();
@@ -19,8 +21,11 @@ export default function ProfilePage() {
   const daysLeft = hasDueDate ? getDaysUntilDue(user.dueDate) : 0;
 
   const [babySex, setBabySex] = useState<'boy' | 'girl' | 'unknown'>(user.babySex ?? 'unknown');
+  const [country, setCountry] = useState<Country>(user.country ?? 'US');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [savingCountry, setSavingCountry] = useState(false);
+  const [savedCountry, setSavedCountry] = useState(false);
 
   const handleSaveBabySex = async (value: 'boy' | 'girl' | 'unknown') => {
     setBabySex(value);
@@ -31,6 +36,17 @@ export default function ProfilePage() {
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleSaveCountry = async (value: Country) => {
+    setCountry(value);
+    setSavingCountry(true);
+    setSavedCountry(false);
+    await updateProfile(user.id, { country: value });
+    setUser({ ...user, country: value });
+    setSavingCountry(false);
+    setSavedCountry(true);
+    setTimeout(() => setSavedCountry(false), 2000);
   };
 
   const handleExport = () => {
@@ -128,6 +144,39 @@ export default function ProfilePage() {
               ))}
             </div>
             {saved && (
+              <p className="text-rose-400 text-xs mt-2 text-center">Saved ✓</p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Country */}
+        <Card className="bg-white border-gray-200 mb-4">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wide">
+              Location
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-gray-500 text-sm mb-3">Adjusts your milestone schedule to local antenatal standards.</p>
+            <div className="space-y-2">
+              {COUNTRIES.map(c => (
+                <button
+                  key={c.code}
+                  onClick={() => handleSaveCountry(c.code)}
+                  disabled={savingCountry}
+                  className={cn(
+                    'w-full py-2.5 px-4 rounded-xl border text-sm font-medium transition-all flex items-center gap-3',
+                    country === c.code
+                      ? 'bg-rose-500/15 border-rose-500/40 text-rose-500'
+                      : 'border-gray-300 text-gray-500 hover:border-gray-400'
+                  )}
+                >
+                  <span className="text-lg">{c.flag}</span>
+                  <span>{c.name}</span>
+                </button>
+              ))}
+            </div>
+            {savedCountry && (
               <p className="text-rose-400 text-xs mt-2 text-center">Saved ✓</p>
             )}
           </CardContent>

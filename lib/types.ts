@@ -1,3 +1,5 @@
+export type Country = 'US' | 'UK' | 'IL';
+
 export interface User {
   id: string;
   email: string;
@@ -5,6 +7,7 @@ export interface User {
   dueDate: string; // ISO date string
   pregnancyNumber: number; // 1st, 2nd, 3rd pregnancy
   babySex: 'boy' | 'girl' | 'unknown';
+  country: Country;
   partnerMode: boolean;
   createdAt: string;
 }

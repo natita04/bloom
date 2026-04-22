@@ -7,6 +7,7 @@ import { useBloomStore } from '@/lib/store';
 import { getPregnancyWeek, getTrimester, getDaysUntilDue, getProgressPercent } from '@/lib/utils/pregnancy';
 import { getWeekData } from '@/lib/data/week-data';
 import { getBeContentForWeek } from '@/lib/data/be-content';
+import { getPersonalizedTip } from '@/lib/utils/be-insights';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,7 @@ export default function DashboardPage() {
   const today = format(new Date(), 'yyyy-MM-dd');
   const todayLog = logs.find(l => l.date === today);
   const recentLogs = logs.slice(-7).reverse();
+  const personalizedTip = getPersonalizedTip(beContent, recentLogs);
 
   const avgMood = recentLogs.length
     ? (recentLogs.reduce((s, l) => s + l.moodScore, 0) / recentLogs.length).toFixed(1)
@@ -173,6 +175,12 @@ export default function DashboardPage() {
               <p className="text-xs text-gray-400 font-medium mb-1 uppercase tracking-wide">What to do with it</p>
               <p className="text-gray-600 text-sm">{beContent.whatToDoWithIt}</p>
             </div>
+            {personalizedTip && (
+              <div className="bg-rose-50 border border-rose-500/20 rounded-lg p-3 mt-3">
+                <p className="text-xs text-rose-400 font-medium mb-1 uppercase tracking-wide">For you this week</p>
+                <p className="text-gray-700 text-sm leading-relaxed">{personalizedTip}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
