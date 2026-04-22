@@ -36,6 +36,7 @@ export default function LoginPage() {
         dueDate: data.user.user_metadata?.due_date ?? '',
         pregnancyNumber: data.user.user_metadata?.pregnancy_number ?? 1,
         babySex: (data.user.user_metadata?.baby_sex ?? 'unknown') as 'boy' | 'girl' | 'unknown',
+        country: (data.user.user_metadata?.country ?? 'US') as 'US' | 'UK' | 'IL',
         partnerMode: data.user.user_metadata?.partner_mode ?? false,
         createdAt: data.user.created_at,
       });
